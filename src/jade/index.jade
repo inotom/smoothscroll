@@ -1,0 +1,11 @@
+extends ./layout/_layout
+include ./layout/_lorem
+
+block vars
+  - var page = { title: 'normal scroll - Smoothscroll Script', slug: 'home', path: 'index.html', js: ['smoothscroll'] }
+block content
+  #top
+    h1= page.title
+    p.nav
+      a(href="easing.html") easing scroll
+    +repeatLorem(20)
