@@ -31,7 +31,7 @@ npm install -D @inotom/smoothscroll
 
 ### ES module
 
-```vue
+```js
 import { smoothScroll } from '@inotom/smoothscroll';
 
 window.addEventListener('load', () => {
