@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>@inotom/smoothscroll Demo</title>
+<!-- header css {{{ -->
+<style>
+<!--
+/* <![CDATA[ */
+/*******************************************
+ ***** RESET STYLE *************************
+ *******************************************/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+html {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+q, blockquote {
+  quotes: none;
+}
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+a img {
+  border: none;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+  display: block;
+}
+
+/*******************************************
+ ***** DEFAULT STYLE ***********************
+ *******************************************/
+html {
+  overflow-y: scroll;
+  font-size: 16px;
+}
+
+h1, h2, h3, h4, h5, h6,
+p, td, th, li, dt, dd, blockquote, pre {
+  line-height: 120%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+}
+
+i {
+  font-style: italic;
+}
+
+b {
+  font-weight: bold;
+}
+
+ins {
+  text-decoration: none;
+  border-bottom-style: dashed;
+  border-bottom-width: 1px;
+}
+
+s,
+del {
+  text-decoration: line-through;
+}
+
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: bold;
+}
+
+pre {
+  font-family: monospace;
+}
+
+cite {
+  font-style: italic;
+}
+
+blockquote {
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+}
+
+code,
+var,
+kbd {
+  font-family: monospace;
+}
+
+/*******************************************
+ ***** COMMON STYLE ************************
+ *******************************************/
+body {
+  min-width: 500px;
+  color: #111111;
+  background-color: white;
+  font-size: 12px;
+  font-size: 0.75rem;
+}
+
+.nav {
+  overflow: hidden;
+  width: 500px;
+  margin: 0 auto 20px;
+}
+.nav > li {
+  float: left;
+  margin: 5px 5px 5px 0;
+  line-height: 1.0;
+}
+
+a {
+  color: #1122cc;
+}
+a:hover, a:active, a:focus {
+  color: #5261f1;
+}
+a:hover > img {
+  opacity: 0.7;
+  filter: alpha(opacity=70);
+}
+
+h1 {
+  width: 500px;
+  margin: 0 auto 20px;
+  padding-top: 25px;
+  font-size: 20px;
+  font-size: 1.25rem;
+  font-family: helvetica;
+}
+
+h2 {
+  margin: 10px 0;
+  font-size: 18px;
+  font-size: 1.125rem;
+  font-family: helvetica;
+  color: rgba(0, 0, 0, 0.8);
+  text-shadow: rgba(255, 255, 255, 0.5) 0 1px 0;
+}
+
+p {
+  margin: 5px 0;
+  line-height: 2;
+}
+
+.section {
+  width: 500px;
+  margin: 5px auto 30px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 1px 1px 2px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 1px 1px 2px;
+  box-shadow: rgba(0, 0, 0, 0.2) 1px 1px 2px;
+  text-align: justify;
+  text-justify: auto;
+  font-size: 16px;
+  font-size: 1rem;
+  font-family: Georgia;
+}
+.section .go-top {
+  text-align: right;
+}
+.section .go-top a {
+  color: white;
+  text-decoration: none;
+  text-shadow: rgba(0, 0, 0, 0.5) 0 -1px 0;
+}
+
+.home #lorem-1 {
+  background-color: #e6c0ad;
+}
+
+.easing #lorem-1 {
+  background-color: #e6adad;
+}
+
+.home #lorem-2 {
+  background-color: #d1a9e5;
+}
+
+.easing #lorem-2 {
+  background-color: #e5a9a9;
+}
+
+.home #lorem-3 {
+  background-color: #cfa6e3;
+}
+
+.easing #lorem-3 {
+  background-color: #a6cfe3;
+}
+
+.home #lorem-4 {
+  background-color: #cca3e1;
+}
+
+.easing #lorem-4 {
+  background-color: #e1a3a3;
+}
+
+.home #lorem-5 {
+  background-color: #dfb59f;
+}
+
+.easing #lorem-5 {
+  background-color: #df9f9f;
+}
+
+.home #lorem-6 {
+  background-color: #c89cdd;
+}
+
+.easing #lorem-6 {
+  background-color: #9cc8dd;
+}
+
+.home #lorem-7 {
+  background-color: #db99af;
+}
+
+.easing #lorem-7 {
+  background-color: #9999db;
+}
+
+.home #lorem-8 {
+  background-color: #c396d9;
+}
+
+.easing #lorem-8 {
+  background-color: #d9c396;
+}
+
+.home #lorem-9 {
+  background-color: #d7c093;
+}
+
+.easing #lorem-9 {
+  background-color: #93c0d7;
+}
+
+.home #lorem-10 {
+  background-color: #9090d5;
+}
+
+.easing #lorem-10 {
+  background-color: #d59090;
+}
+
+.home #lorem-11 {
+  background-color: #bcd38d;
+}
+
+.easing #lorem-11 {
+  background-color: #8dd3d3;
+}
+
+.home #lorem-12 {
+  background-color: #b98ad0;
+}
+
+.easing #lorem-12 {
+  background-color: #b9d08a;
+}
+
+.home #lorem-13 {
+  background-color: #9f88ce;
+}
+
+.easing #lorem-13 {
+  background-color: #ce889f;
+}
+
+.home #lorem-14 {
+  background-color: #cc8585;
+}
+
+.easing #lorem-14 {
+  background-color: #8585cc;
+}
+
+.home #lorem-15 {
+  background-color: #9ac982;
+}
+
+.easing #lorem-15 {
+  background-color: #82c99a;
+}
+
+.home #lorem-16 {
+  background-color: #7fafc7;
+}
+
+.easing #lorem-16 {
+  background-color: #c7af7f;
+}
+
+.home #lorem-17 {
+  background-color: #c57dc5;
+}
+
+.easing #lorem-17 {
+  background-color: #c57dc5;
+}
+
+.home #lorem-18 {
+  background-color: #c2aa7a;
+}
+
+.easing #lorem-18 {
+  background-color: #7aaac2;
+}
+
+.home #lorem-19 {
+  background-color: #78bf90;
+}
+
+.easing #lorem-19 {
+  background-color: #90bf78;
+}
+
+.home #lorem-20 {
+  background-color: #7575bd;
+}
+
+.easing #lorem-20 {
+  background-color: #bd7575;
+}
+/* ]]> */
+-->
+</style>
+<!-- }}} -->
+</head>
+<body class="home">
+<!-- main content-->
+<div id="top">
+  <h1>@inotom/smoothscroll Demo</h1>
+  <ul class="nav">
+    <li><a href="#lorem-1">lorem1</a></li>
+    <li><a href="#lorem-2">lorem2</a></li>
+    <li><a href="#lorem-3">lorem3</a></li>
+    <li><a href="#lorem-4">lorem4</a></li>
+    <li><a href="#lorem-5">lorem5</a></li>
+    <li><a href="#lorem-6">lorem6</a></li>
+    <li><a href="#lorem-7">lorem7</a></li>
+    <li><a href="#lorem-8">lorem8</a></li>
+    <li><a href="#lorem-9">lorem9</a></li>
+    <li><a href="#lorem-10">lorem10</a></li>
+    <li><a href="#lorem-11">lorem11</a></li>
+    <li><a href="#lorem-12">lorem12</a></li>
+    <li><a href="#lorem-13">lorem13</a></li>
+    <li><a href="#lorem-14">lorem14</a></li>
+    <li><a href="#lorem-15">lorem15</a></li>
+    <li><a href="#lorem-16">lorem16</a></li>
+    <li><a href="#lorem-17">lorem17</a></li>
+    <li><a href="#lorem-18">lorem18</a></li>
+    <li><a href="#lorem-19">lorem19</a></li>
+    <li><a href="#lorem-20">lorem20</a></li>
+  </ul>
+  <div id="lorem-1" class="section">
+    <h2>Lorem ipsum 1</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="go-top"><a href="#top">Top</a></p>
+  </div>
+  <div id="lorem-2" class="section">
+    <h2>Lorem ipsum 2</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="go-top"><a href="#top">Top</a></p>
+  </div>
+  <div id="lorem-3" class="section">
+    <h2>Lorem ipsum 3</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="go-top"><a href="#top">Top</a></p>
+  </div>
+  <div id="lorem-4" class="section">
+    <h2>Lorem ipsum 4</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="go-top"><a href="#top">Top</a></p>
+  </div>
+  <div id="lorem-5" class="section">
+    <h2>Lorem ipsum 5</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="go-top"><a href="#top">Top</a></p>
+  </div>
+  <div id="lorem-6" class="section">
+    <h2>Lorem ipsum 6</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="go-top"><a href="#top">Top</a></p>
+  </div>
+  <div id="lorem-7" class="section">
+    <h2>Lorem ipsum 7</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="go-top"><a href="#top">Top</a></p>
+  </div>
+  <div id="lorem-8" class="section">
+    <h2>Lorem ipsum 8</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="go-top"><a href="#top">Top</a></p>
+  </div>
+  <div id="lorem-9" class="section">
+    <h2>Lorem ipsum 9</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="go-top"><a href="#top">Top</a></p>
+  </div>
+  <div id="lorem-10" class="section">
+    <h2>Lorem ipsum 10</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="go-top"><a href="#top">Top</a></p>
+  </div>
+  <div id="lorem-11" class="section">
+    <h2>Lorem ipsum 11</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="go-top"><a href="#top">Top</a></p>
+  </div>
+  <div id="lorem-12" class="section">
+    <h2>Lorem ipsum 12</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="go-top"><a href="#top">Top</a></p>
+  </div>
+  <div id="lorem-13" class="section">
+    <h2>Lorem ipsum 13</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="go-top"><a href="#top">Top</a></p>
+  </div>
+  <div id="lorem-14" class="section">
+    <h2>Lorem ipsum 14</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="go-top"><a href="#top">Top</a></p>
+  </div>
+  <div id="lorem-15" class="section">
+    <h2>Lorem ipsum 15</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="go-top"><a href="#top">Top</a></p>
+  </div>
+  <div id="lorem-16" class="section">
+    <h2>Lorem ipsum 16</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="go-top"><a href="#top">Top</a></p>
+  </div>
+  <div id="lorem-17" class="section">
+    <h2>Lorem ipsum 17</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="go-top"><a href="#top">Top</a></p>
+  </div>
+  <div id="lorem-18" class="section">
+    <h2>Lorem ipsum 18</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="go-top"><a href="#top">Top</a></p>
+  </div>
+  <div id="lorem-19" class="section">
+    <h2>Lorem ipsum 19</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="go-top"><a href="#top">Top</a></p>
+  </div>
+  <div id="lorem-20" class="section">
+    <h2>Lorem ipsum 20</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p class="go-top"><a href="#top">Top</a></p>
+  </div>
+</div>
+<script src="smoothscroll.min.js"></script>
+<script>
+  SmoothScroll.smoothScroll();
+</script>
+</body>
+</html>

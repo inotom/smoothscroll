@@ -1,6 +1,5 @@
 .DS_Store
-.sass-cache
 *.swp
 *~
+*.log
 /node_modules
-.bundle
