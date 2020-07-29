@@ -5,22 +5,22 @@ import { easeOutCubic } from './easing';
 const INTERVAL = 16;
 const SPEED = 1000;
 
-let intervalId;
+let intervalId: number;
 
-export default (from, to) => {
-  const startTime = new Date();
+export default (from: number, to: number): void => {
+  const startTime = new Date().getTime();
   const distance = to - from;
 
   if (distance === 0) {
     return;
   }
 
-  intervalId = setInterval(() => {
-    const time = new Date() - startTime;
+  intervalId = window.setInterval(() => {
+    const time = new Date().getTime() - startTime;
     let current = easeOutCubic(time, from, distance, SPEED);
 
     if (time > SPEED) {
-      clearInterval(intervalId);
+      window.clearInterval(intervalId);
       current = from + distance;
     }
 

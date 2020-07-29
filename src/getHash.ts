@@ -2,7 +2,7 @@
 
 const HASH_URI_RE = /#([^#]+)$/;
 
-export default uri => {
+export default (uri: string): string | null => {
   if (uri.match(HASH_URI_RE)) {
     const hash = window.RegExp.$1;
     if (

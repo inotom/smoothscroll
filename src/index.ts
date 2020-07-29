@@ -3,34 +3,36 @@
 import getHash from './getHash';
 import scroll from './scroll';
 
-export const smoothScroll = () => {
-  const elAnchors = document.querySelectorAll('A,AREA');
+export const smoothScroll = (): void => {
+  const elAnchors: NodeListOf<HTMLAnchorElement | HTMLAreaElement> = document.querySelectorAll(
+    'A,AREA'
+  );
 
   let isScrolling = false;
 
-  Array.from(elAnchors, el => {
+  Array.prototype.slice.call(elAnchors, 0).forEach((el) => {
     const hash = getHash(el.href);
     if (hash) {
-      el.addEventListener('click', e => {
+      el.addEventListener('click', (e: MouseEvent) => {
         e.preventDefault();
         const elTarget = document.getElementById(hash);
-        if (!isScrolling) {
+        if (!isScrolling && elTarget) {
           scroll(hash, elTarget);
         }
       });
     }
   });
 
-  let timeoutID;
+  let timeoutID: number;
 
   window.addEventListener('scroll', () => {
     isScrolling = true;
 
     if (timeoutID) {
-      clearTimeout(timeoutID);
+      window.clearTimeout(timeoutID);
     }
 
-    timeoutID = setTimeout(() => {
+    timeoutID = window.setTimeout(() => {
       isScrolling = false;
     }, 500);
   });
