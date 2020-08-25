@@ -1,12 +1,19 @@
 {
+  "root": true,
   "extends": [
-    "eslint:recommended"
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "prettier/@typescript-eslint"
   ],
-  "plugins": [],
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "parser": "babel-eslint",
     "sourceType": "module",
-    "ecmaVersion": 6,
+    "ecmaVersion": 2020,
     "ecmaFeatures": {
       "impliedStrict": true,
       "jsx": false
@@ -43,15 +50,10 @@
     "no-var": 2,
     "no-console": 0
   },
-  "globals": {
-  },
   "env": {
     "es6": true,
-    "jquery": false,
     "commonjs": true,
-    "amd": false,
     "node": true,
-    "mocha": false,
     "browser": true
   }
 }
