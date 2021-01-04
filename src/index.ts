@@ -2,6 +2,9 @@
 
 import getHash from './getHash';
 import scroll from './scroll';
+import _scrollTo from './scrollTo';
+
+export const scrollTo = _scrollTo;
 
 export const smoothScroll = (): void => {
   const elAnchors: NodeListOf<HTMLAnchorElement | HTMLAreaElement> = document.querySelectorAll(
