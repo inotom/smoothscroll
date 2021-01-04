@@ -11,7 +11,6 @@ export default (from: number, to: number): void => {
     progress++;
     position = (to - from) * easeOutCubic(progress / 100) + from;
     window.scrollTo(0, position);
-    console.log(to, position);
 
     if (inProgress(from, to, position)) {
       requestAnimationFrame(move);
