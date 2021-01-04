@@ -8,32 +8,16 @@ export const smoothScroll = (): void => {
     'A,AREA'
   );
 
-  let isScrolling = false;
-
-  Array.prototype.slice.call(elAnchors, 0).forEach((el) => {
+  Array.from(elAnchors, (el): void => {
     const hash = getHash(el.href);
     if (hash) {
-      el.addEventListener('click', (e: MouseEvent) => {
+      el.addEventListener('click', (e: Event) => {
         e.preventDefault();
         const elTarget = document.getElementById(hash);
-        if (!isScrolling && elTarget) {
+        if (elTarget) {
           scroll(hash, elTarget);
         }
       });
     }
-  });
-
-  let timeoutID: number;
-
-  window.addEventListener('scroll', () => {
-    isScrolling = true;
-
-    if (timeoutID) {
-      window.clearTimeout(timeoutID);
-    }
-
-    timeoutID = window.setTimeout(() => {
-      isScrolling = false;
-    }, 500);
   });
 };

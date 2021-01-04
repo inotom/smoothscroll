@@ -1,5 +1,11 @@
 /** @prettier */
 
-export const easeOutCubic = (t: number, b: number, c: number, d: number): number => {
-  return c * ((t = t / d - 1) * t * t + 1) + b;
+/**
+ * easeOutCubic.
+ *
+ * @param {number} progress (start:0 ~ end:1).
+ * @returns {number}
+ */
+export const easeOutCubic = (progress: number): number => {
+  return 1 - Math.pow(1 - progress, 3);
 };
