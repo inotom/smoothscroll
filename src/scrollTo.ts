@@ -3,19 +3,24 @@
 import { easeOutCubic } from './easing';
 import inProgress from './inProgress';
 
-export default (from: number, to: number): void => {
+export default (from: number, to: number): Promise<void> => {
   let position = 0;
   let progress = 0;
 
-  const move = (): void => {
-    progress++;
-    position = (to - from) * easeOutCubic(progress / 100) + from;
-    window.scrollTo(0, position);
+  return new Promise((resolve): void => {
+    const move = (): void => {
+      progress++;
+      position = (to - from) * easeOutCubic(progress / 100) + from;
+      window.scrollTo(0, position);
 
-    if (inProgress(from, to, position)) {
-      requestAnimationFrame(move);
-    }
-  };
+      if (inProgress(from, to, position)) {
+        requestAnimationFrame(move);
+        return;
+      }
 
-  requestAnimationFrame(move);
+      resolve();
+    };
+
+    requestAnimationFrame(move);
+  });
 };
