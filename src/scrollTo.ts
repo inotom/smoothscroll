@@ -1,29 +1,26 @@
 /** @prettier */
 
 import { easeOutCubic } from './easing';
+import inProgress from './inProgress';
 
-const INTERVAL = 16;
-const SPEED = 1000;
+export default (from: number, to: number): Promise<void> => {
+  let position = 0;
+  let progress = 0;
 
-let intervalId: number;
+  return new Promise((resolve): void => {
+    const move = (): void => {
+      progress++;
+      position = (to - from) * easeOutCubic(progress / 100) + from;
+      window.scrollTo(0, position);
 
-export default (from: number, to: number): void => {
-  const startTime = new Date().getTime();
-  const distance = to - from;
+      if (inProgress(from, to, position)) {
+        requestAnimationFrame(move);
+        return;
+      }
 
-  if (distance === 0) {
-    return;
-  }
+      resolve();
+    };
 
-  intervalId = window.setInterval(() => {
-    const time = new Date().getTime() - startTime;
-    let current = easeOutCubic(time, from, distance, SPEED);
-
-    if (time > SPEED) {
-      window.clearInterval(intervalId);
-      current = from + distance;
-    }
-
-    window.scrollTo(0, current);
-  }, INTERVAL);
+    requestAnimationFrame(move);
+  });
 };
