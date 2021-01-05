@@ -536,7 +536,11 @@ p {
 
     document.getElementById('go-top').addEventListener('click', function() {
       const from = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-      SmoothScroll.scrollTo(from , 0);
+      const start = new Date().getTime();
+      SmoothScroll.scrollTo(from , 0).then(function() {
+        const end = new Date().getTime();
+        console.log(end - start);
+      });
     });
   });
 </script>
