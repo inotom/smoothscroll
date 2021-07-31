@@ -1,9 +1,11 @@
 /** @prettier */
 
-import getHash from './getHash';
-import scroll from './scroll';
+import _getHash from './getHash';
+import _scroll from './scroll';
 import _scrollTo from './scrollTo';
 
+export const getHash = _getHash;
+export const scroll = _scroll;
 export const scrollTo = _scrollTo;
 
 export const smoothScroll = (): void => {
