@@ -9,9 +9,8 @@ export const scroll = _scroll;
 export const scrollTo = _scrollTo;
 
 export const smoothScroll = (): void => {
-  const elAnchors: NodeListOf<HTMLAnchorElement | HTMLAreaElement> = document.querySelectorAll(
-    'A,AREA'
-  );
+  const elAnchors: NodeListOf<HTMLAnchorElement | HTMLAreaElement> =
+    document.querySelectorAll('A,AREA');
 
   Array.from(elAnchors, (el): void => {
     const hash = getHash(el.href);
