@@ -2,7 +2,7 @@
 
 import scrollTo from './scrollTo';
 
-export default (hash: string, el: HTMLElement): void => {
+export default (el: HTMLElement): void => {
   const dl = document.documentElement;
   const rect = el.getBoundingClientRect();
   const docH = dl.scrollHeight;

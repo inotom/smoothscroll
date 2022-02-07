@@ -20,7 +20,7 @@ export const smoothScroll = (): void => {
         e.preventDefault();
         const elTarget = document.getElementById(hash);
         if (elTarget) {
-          scroll(hash, elTarget);
+          scroll(elTarget);
         }
       });
     }
